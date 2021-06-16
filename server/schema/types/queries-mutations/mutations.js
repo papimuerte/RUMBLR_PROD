@@ -1,10 +1,10 @@
+import mongoose from 'mongoose';
 import graphql from 'graphql';
 import bcrypt from 'bcryptjs';
 import Validator from 'validator';
 import aws from 'aws-sdk';
-import keys from '../../../config/keys.js'
-import { GraphQLJSONObject } from 'graphql-type-json';
-import mongoose from 'mongoose';
+
+import keys from '../../../config/keys_dev.js'
 import UserType from '../objects/user_type.js';
 import AuthService from '../../../services/auth_util.js';
 import RepostType from '../objects/posts/util/repost_type.js';
@@ -17,6 +17,7 @@ import RepostCaptionType from '../objects/posts/util/repost_caption_type.js'
 import RepostOrRepostCaptionType from '../unions/repost_or_repost_caption_type.js';
 import createOrUpdatePost from '../../../models/posts/types/util/create_or_update_function.js';
 import DeleteFunctionUtil from '../../../models/posts/types/util/delete_function_util.js';
+import { GraphQLJSONObject } from 'graphql-type-json';
 const { deletePost, 
         asyncDeleteAllPosts, 
         asyncDeleteAllActivityAndProfilePic,
@@ -35,8 +36,8 @@ const { GraphQLObjectType, GraphQLID,
         GraphQLString, GraphQLList, GraphQLInt } = graphql;
 
 var s3Client = new aws.S3({
-  secretAccessKey: process.env.secretAccessKey,
-  accessKeyId: process.env.accessKeyId,
+  secretAccessKey: keys.secretAccessKey,
+  accessKeyId: keys.accessKeyId,
   region: 'us-east-1'
 })
 
