@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import models from './models/index.js';
+import keys from './config/keys.js'
 import schema from './schema/schema.js';
 import posts from './routes/api/posts.js';
 import mailer from './routes/api/mailer.js';
@@ -17,7 +18,7 @@ const { cronTagFollowerHeat,
 const app = express();
 
 mongoose
-  .connect(url, { 
+  .connect(keys.mongoURL, { 
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -30,11 +31,17 @@ cronTagFollowerHeat.start()
 cronTagPostHeat.start()
 cronPostNotesHeat.start()
 cronUserPostingHeat.start()
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('frontend/build'))
+  app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  })
+}
   
 app.use(express.json())
 app.use('/api/posts', posts);
 app.use('/api/mailer', mailer);
-app.use('/uploads', express.static('uploads'))
 app.use(expressCspHeader({
   directives: {
     'frame-ancestors': [SELF, 'https://open.spotify.com/', 'soundcloud.com']
