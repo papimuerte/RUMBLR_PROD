@@ -1,7 +1,4 @@
-if (process.env.NODE_ENV === 'production') {
-  import keys_prod from './keys_prod.js'
-  export default keys_prod;
-} else {
-  import keys_dev from './keys_dev.js'
-  export default keys_dev;
-}
+import keys_prod from './keys_prod.js'
+import keys_dev from './keys_dev.js'
+
+export default process.env.NODE_ENV === 'development' ? keys_dev : keys_prod;
