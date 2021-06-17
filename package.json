@@ -2,6 +2,7 @@
   "name": "rumblr_merng",
   "version": "1.0.0",
   "description": "A MERNG clone of Tumblr",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "client-install": "npm install --prefix client",
